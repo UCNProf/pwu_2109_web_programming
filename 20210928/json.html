@@ -38,13 +38,17 @@
 
 			console.log('Persons as a string:',JSON.stringify(persons));
 
+			console.log('Should be array:',persons[0].friends);
+
 			let str = '[{"personids":[2,3],"id":1,"name":"John","age":32},{"personids":[],"id":2,"name":"Jane","age":32},{"personids":[],"id":3,"name":"Jack","age":32}]';
 
 			persons = JSON.parse(str);
 
 			console.log('Should be undefined:',persons[0].friends);
-
-			persons = persons.map(obj => Object.assign(new Person(), obj));
+			// turn plain objects into objects class Person:
+			persons = persons.map(obj => {
+				return Object.assign(new Person(), obj);
+			});
 
 			console.log('Should return an array:',persons[0].friends);
 

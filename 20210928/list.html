@@ -4,10 +4,42 @@
 		<title></title>
 		<meta charset="utf-8">
 		<script type="text/javascript">
+			var list_elm;
+			var list_arr = [];
+
+			const submitform = e => {
+				e.preventDefault();
+				let id = Date.now();
+				let obj = {id: id, desc: e.target.desc.value};
+				// add item to the array
+				list_arr.push(obj);
+				// add item to the user interface
+				list_elm.innerHTML += `<li data-id="${obj.id}">${obj.desc}</li>`;
+			};
+
+			const removeitem = e => {
+				if(e.target.nodeName == 'LI'){
+					let id = e.target.attributes['data-id'].value;
+					// using the filer function to remove an item in the array
+					list_arr = list_arr.filter(obj => obj.id != id);
+					// remove the item from the user interface
+					e.target.outerHTML = '';
+				}
+			};
+
 			document.addEventListener('DOMContentLoaded', e => {
+				list_elm = document.getElementById('list');
+
+				document.forms.itemform.addEventListener('submit', submitform);
+				list_elm.addEventListener('click', removeitem);
 			});
 		</script>
 	</head>
 	<body>
+		<form name="itemform">
+			<input type="text" name="desc">
+			<button>Add</button>
+		</form>
+		<ul id="list"></ul>
 	</body>
 </html>
