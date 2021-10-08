@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tabs</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+      ul#menu {
+        position: relative;
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        z-index: 2;
+      }
+
+      ul#menu a {
+        display: inline-block;
+        text-decoration: none;
+        padding: .2em;
+        border: solid transparent;
+        border-width: 1px 1px 0;
+        background-color: none;
+      }
+
+      ul#menu a.current {
+        border-color: black;
+        background-color: white;
+      }
+
+      div#content {
+        position: relative;
+        z-index: 1;
+        top:  -1px;
+        width: 500px;
+        height: 300px;
+        border: solid 1px black;
+        padding: 1em;
+      }
+
+      div#content div {
+        display: none;
+
+      }
+      div#content div.current {
+        display: block;
+      }
+    </style>
+    <script type="text/javascript">
+      var menu_elm, content_elm;
+
+      const onmenuclicked = e => {
+        e.preventDefault();
+        if(e.target.nodeName == 'A'){
+          var id = e.target.attributes['href'].value;
+          let event = new CustomEvent('tabchanged', {detail: id});
+          document.dispatchEvent(event);
+        }
+      };
+
+      const changemenu = e => {
+        let id = e.detail;
+        menu_elm.querySelectorAll(`a.current`).forEach(elm => elm.classList.remove('current'));
+        menu_elm.querySelector(`a[href = "${id}"]`).classList.add('current');
+      };
+
+      const changecontent = e => {
+        let id = e.detail;
+        content_elm.querySelectorAll(`div.current`).forEach(elm => {
+          elm.classList.remove('current');
+        });
+        var page_elm = content_elm.querySelector(`div#${id}`);
+        page_elm.classList.add('current');
+      };
+
+      document.addEventListener('DOMContentLoaded', e => {
+        menu_elm = document.getElementById('menu');
+        content_elm = document.getElementById('content');
+
+        menu_elm.addEventListener('click', onmenuclicked);
+
+        document.addEventListener('tabchanged', changemenu);
+        document.addEventListener('tabchanged', changecontent);
+      });
+    </script>
+  </head>
+  <body>
+    <ul id="menu">
+     <li><a href="page1">Page 1</a></li>
+     <li><a href="page2">Page 2</a></li>
+     <li><a href="page3">Page 3</a></li>
+   </ul>
+   <div id="content">
+     <div id="page1">
+      <p>Content of page 1</p>
+    </div>
+    <div id="page2">
+      <p>Content of page 2</p>
+    </div>
+    <div id="page3">
+      <p>Content of page 3</p>
+    </div>
+  </div>
+  </body>
+</html>
