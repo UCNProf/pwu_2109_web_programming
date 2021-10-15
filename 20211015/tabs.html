@@ -71,18 +71,25 @@
         document.addEventListener('tabchanged', changemenu);
         document.addEventListener('tabchanged', changecontent);
 
-        //menu_elm.addEventListener('click', onmenuclicked);
+        // menu_elm.addEventListener('click', onmenuclicked);
+        // replace the click event listener with the hashchange event
+
         let hash = window.location.hash.substring(1);
+        // if the hash is one of the ids
+        // else set an initial hash to "page1"
         if(document.querySelector(`#menu a[href = "#${hash}"]`)){
           let event = new CustomEvent('tabchanged', {detail: hash});
           document.dispatchEvent(event);
+        } else {
+          window.location.hash = '#page1';
         }
       });
 
-        window.addEventListener('hashchange', e => {
-          let id = e.target.location.hash.substring(1);
-          let event = new CustomEvent('tabchanged', {detail: id});
-        document.dispatchEvent(event);
+      // When the hash is changed in the URL
+      window.addEventListener('hashchange', e => {
+        let id = e.target.location.hash.substring(1);
+        let event = new CustomEvent('tabchanged', {detail: id});
+      document.dispatchEvent(event);
   }, false);
     </script>
   </head>
