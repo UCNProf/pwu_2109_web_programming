@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Form Required</title>
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', e => {
+        // document.forms.form01.title.addEventListener('invalid', e => {
+        //   e.preventDefault();
+        //   //alert('Put a text into the title field!');
+        // });
+
+        // document.forms.form01.addEventListener('invalid', e => {
+        //   e.preventDefault();
+        //   console.log(e.target);
+        //   alert(`Put a text into the ${e.target.name} field!`);
+        // }, true);
+
+        document.forms.form01.checkvalidity.addEventListener('click', e => {
+          let valid = e.target.form.checkValidity();
+          console.log(valid);
+        });
+        document.forms.form01.reportvalidity.addEventListener('click', e => {
+          let valid = e.target.form.reportValidity();
+          console.log(valid);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <form name="form01">
+      <fieldset>
+        <legend>Info</legend>
+        <label>Title: <input type="text" name="title" required></label>
+        <label>Url: <input type="url" name="url" required></label>
+      </fieldset>
+      <fieldset disabled>
+        <legend>Weekdays</legend>
+        <label><input type="radio" name="day" value="0">Monday</label>
+        <label><input type="radio" name="day" value="1">Tuesday</label>
+        <label><input type="radio" name="day" value="2">Wedensday</label>
+      </fieldset>
+      <button>Submit</button>
+      <input type="button" name="checkvalidity" value="Check validity">
+      <input type="button" name="reportvalidity" value="Report validity">
+    </form>
+  </body>
+</html>
