@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+  <script type="text/javascript">
+    var users;
+    var users_arr = [];
+
+    const updatelist = userarr => {
+      let str = '';
+      userarr.forEach(user => {
+        str += `<li><a href="${user.id}">${user.name}</a></li>`;
+      });
+      users.innerHTML = str;
+    };
+
+    const onusersclicked = e => {
+      e.preventDefault();
+      if(e.target.nodeName == 'A'){
+        let id = e.target.getAttribute('href');
+        console.log(id);
+        // get user infp and display info on page
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', e => {
+      users = document.getElementById('users');
+
+      users.addEventListener('click', onusersclicked);
+
+      fetch('users.json')
+        .then(response => response.json())
+        .then(json => {
+          users_arr = json;
+          updatelist(json);
+        });
+    });
+  </script>
+</head>
+<body>
+<ul id="users"></ul>
+</body>
+</html>

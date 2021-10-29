@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <script type="text/javascript">
+    	var content;
+
+    	const updatepage = id => {
+    		let page = `page${id}.html`;
+    		fetch(page)
+    		  .then(response => response.text())
+    		  .then(text => content.innerHTML = text);
+    	};
+
+    	document.addEventListener('DOMContentLoaded', e => {
+    		content = document.getElementById('content');
+    		console.log(content);
+    		let event = new Event('hashchange');
+    		window.dispatchEvent(event);
+    	});
+
+      window.addEventListener('hashchange', e => {
+	    		let id = window.location.hash.substring(1);
+	    		updatepage(id);
+	    	});
+
+    </script>
+  </head>
+  <body>
+    <ul>
+    	<li><a href="#1">Page 1</a></li>
+    	<li><a href="#2">Page 2</a></li>
+    </ul>
+    <div id="content"></div>
+  </body>
+</html>
