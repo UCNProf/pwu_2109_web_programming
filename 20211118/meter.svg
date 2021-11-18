@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 100 100" id="meter" xmlns="http://www.w3.org/2000/svg"> 
+  <circle cx="50" cy="50" r="45" fill="none" stroke-width="8" stroke="LightYellow" />
+  <path id="meterpath" pathLength="100" d="M50 5 a 45 45 0 1 0 1 0"
+    stroke="orange" fill="none" stroke-width="8"
+    stroke-linecap ="round" stroke-dasharray="85 100"
+    stroke-dashoffset="0"/>
+  <text id="metertext" x="50" y="50" dominant-baseline="middle" text-anchor="middle"
+  font-family="sans-serif" font-weight="bold" font-size="20"
+  fill="orange">85%</text>
+</svg>
