@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script type="application/x-javascript">
+    var canvas, ctx, interval, particles = [], lastdelta = 0;
+    var globals = {thrust: -.5};
+    
+    var Particle = function(){
+      this.d = {x:(canvas.width/2),y:(canvas.height-10),w:5,h:5};
+      this.speed = {x:Math.random()*200-100,y:Math.random()*100};
+      this.opacity = 1;
+    };
+
+    Particle.prototype.render = function(timespan){
+      this.speed.y += globals.thrust;
+      this.opacity -= .005;
+      ctx.fillStyle = 'rgba(255,255,255,'+this.opacity+')';
+      this.speed.x = (Math.abs(this.speed.x) > 10) ? this.speed.x*.95 : Math.random()*100-50;
+
+      this.d.x += this.speed.x*timespan;
+      this.d.y += this.speed.y*timespan;
+      if(this.d.y > canvas.height-5){
+        this.d.y = canvas.height-5;
+        this.speed.y = this.speed.y*-.1;
+      }
+      ctx.fillRect(this.d.x, this.d.y, this.d.w, this.d.h);
+    };
+
+    const addParticle = function(){
+      particles.push(new Particle());
+    };
+
+    const update = function(delta){
+      addParticle();
+
+      let timespan = (delta-lastdelta)/1000;
+      lastdelta = delta;
+
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(particle => particle.render(timespan));
+
+      if(particles.length > 400){
+        particles = particles.slice(1);
+      }
+      requestAnimationFrame(update);
+    };
+
+    const load = e => {
+      canvas = document.getElementById("canvas");
+
+      if (canvas.getContext) {
+        ctx = canvas.getContext("2d");
+        requestAnimationFrame(update);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', load);
+    </script>
+  </head>
+  <body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+  </body>
+</html>

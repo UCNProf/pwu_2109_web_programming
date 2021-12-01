@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Draw</title>
+    <style>
+      body {
+        width: 400px;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      
+      #canvas {
+        border: solid 1px black;
+        position: relative;
+      }
+    </style>
+    <script>    
+      var canvas, ball, fps = 24;
+      var mouse = {down:false};
+
+      const Ball = class {
+        constructor(ctx) {
+          this.ctx = ctx;
+          this.mousedown = false;
+          this.lineWidth = 5;
+          this.left;
+          this.top;
+        }
+
+        down(){
+          this.mousedown = true;
+          this.ctx.beginPath();
+        }
+
+        up(){
+          this.mousedown = false;
+        }
+
+        render(){
+          if(this.mousedown){
+            this.ctx.lineWidth = this.lineWidth;
+            this.ctx.strokeStyle = 'darkorange';
+            this.ctx.lineCap = 'round';
+            this.ctx.lineTo(this.left, this.top);
+            this.ctx.stroke();
+          }
+        }
+      };
+
+      const load = e => {
+        canvas = document.getElementById('canvas');  
+        if (canvas.getContext) {  
+          let ctx = canvas.getContext('2d');
+          ball = new Ball(ctx);
+          canvas.addEventListener('mousemove', mousemove);
+          canvas.addEventListener('mousedown', e => {ball.down()});
+          canvas.addEventListener('mouseup', e => {ball.up()});
+        }
+      };
+      
+      const mousemove =  e => {
+        mouse.left = e.clientX-canvas.offsetLeft;
+        mouse.top = e.clientY-canvas.offsetTop;
+        ball.left = mouse.left;
+        ball.top = mouse.top;
+        ball.render();
+      };
+      
+      document.addEventListener('DOMContentLoaded', load);
+    </script>  
+  </head>
+  <body>
+    <h1>Draw</h1>
+    <canvas id="canvas" width="400" height="400"></canvas> 
+  </body>
+</html>
